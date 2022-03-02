@@ -1,8 +1,21 @@
 
 import Foundation
+import CoreData
+import Combine
 
-class DataStore: ObservableObject {
+protocol Repository {
+    func addToDo(_ toDo: ToDo) -> AnyPublisher<Void, Error>
+    func updateToDo(_ toDo: ToDo) -> AnyPublisher<Void, Error>
+    func deleteToDo(at indexSet: IndexSet) -> AnyPublisher<Void, Error>
+    func loadToDos() -> AnyPublisher<Void, Error>
+    func saveToDo() -> AnyPublisher<Void, Error>
+}
+
+final class TodoRepository: Repository, ObservableObject {
+    
     @Published var toDos: [ToDo] = []
+    
+    let fileManager: FileManager
     
     init() {
         print(FileManager.docDirURL.path)
@@ -11,24 +24,24 @@ class DataStore: ObservableObject {
         }
     }
     
-    func addToDo(_ toDo: ToDo) {
+    func addToDo(_ toDo: ToDo) -> AnyPublisher<Void, Error> {
         toDos.append(toDo)
         saveToDo()
     }
     
-    func updateToDo(_ toDo: ToDo) {
-        guard let index = toDos.firstIndex(where: { $0.id == toDo.id}) else { return }
+    func updateToDo(_ toDo: ToDo) -> AnyPublisher<Void, Error> {
+        guard let index = toDos.firstIndex(where: { $0.id == toDo.id}) else { }
         toDos[index] = toDo
         saveToDo()
     }
     
-    func deleteToDo(at indexSet: IndexSet) {
+    func deleteToDo(at indexSet: IndexSet) -> AnyPublisher<Void, Error> {
         toDos.remove(atOffsets: indexSet)
-        saveToDo()
+        self.saveToDo()
     }
     
-    func loadToDos() {
-        FileManager().readDocument(docName: fileName) { (result) in
+    func loadToDos() -> AnyPublisher<Void, Error> {
+        FileManager().readDocument(docName: fileName, completion: (Result<Data, Error>) -> Void).eraseToAnyPublisher() { (result) in
             switch result {
             case .success(let data):
                 let decoder = JSONDecoder()
@@ -43,7 +56,7 @@ class DataStore: ObservableObject {
         }
     }
     
-    func saveToDo() {
+    func saveToDo() -> AnyPublisher<Void, Error> {
         print("save todo");
         let encoder = JSONEncoder()
         do {
@@ -58,4 +71,5 @@ class DataStore: ObservableObject {
             print(error.localizedDescription)
         }
     }
+
 }
