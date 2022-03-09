@@ -7,19 +7,19 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    @EnvironmentObject var dataStore: DataStore
+struct ListTodoView: View {
+    @EnvironmentObject var todoViewModel: TodoViewModel
     @State private var modelType: ModelType? = nil
     var body: some View {
         NavigationView {
             List() {
-                ForEach(dataStore.toDos) { toDo in
+                ForEach(todoViewModel.toDos) { toDo in
                     Button {
                         modelType = .update(toDo)
                     } label: {
                         Text(toDo.name).font(.title3).strikethrough(toDo.completed).foregroundColor(toDo.completed ? .green : Color(.label))
                     }
-                }.onDelete(perform: dataStore.deleteToDo)
+                }.onDelete(perform: todoViewModel.deleteToDo)
             }.listStyle(InsetGroupedListStyle())
                 .toolbar {
                     ToolbarItem(placement: .principal) {
@@ -41,8 +41,8 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct ListTodoView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environmentObject(DataStore())
+        ListTodoView().environmentObject(TodoViewModel())
     }
 }

@@ -16,9 +16,9 @@ enum ModelType: Identifiable, View {
     var body: some View {
         switch self {
         case .new:
-            return ToDoFormView(formVM: ToDoFormViewModel())
+            return EditAddTodoView(formVM: ToDoFormViewModel())
         case .update(let toDo):
-            return ToDoFormView(formVM: ToDoFormViewModel(toDo))
+            return EditAddTodoView(formVM: ToDoFormViewModel(toDo))
         }
     }
 }

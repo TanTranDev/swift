@@ -5,7 +5,7 @@ import SwiftUI
 struct TodoApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView().environmentObject(DataStore())
+            ListTodoView().environmentObject(TodoViewModel())
         }
     }
 }
