@@ -19,6 +19,7 @@ Note: If your widgets work directly with key-value pairs from a REST API or a re
 The repository pattern is very handy if your app has a complex data layer with many different endpoints that return unstructured data (such as JSON) that you want to isolate from the rest of the app.
 
 A few use cases where the repository pattern is most appropriate:
+- Unit test
 - talking to REST APIs
 - talking to local or remote databases
 - talking to device-specific APIs (e.g. permissions, camera, location, etc.)
@@ -44,3 +45,7 @@ In this scenario, consider creating multiple repositories, keeping related metho
 As usual, keeping things simple is always a good idea. So don't get too wound up overthinking our APIs.
 
 We can model your repository's interface after the API that we need to use, and call it a day. we can always refactor later if needed.
+
+why repo ? H2. Need to clarify
+
+ref link

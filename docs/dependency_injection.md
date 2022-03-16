@@ -14,17 +14,7 @@ Here the car class is responsible for creating all the dependency objects. Now, 
 
 We will need to recreate the car object with a new Yokohama dependency. But when using dependency injection (DI), we can change the Wheels at runtime (because dependencies can be injected at runtime rather than at compile time). It makes our Car class independent from creating the objects of Wheels, Battery, etc.
 
-## There are basically three types of dependency injection:
-- constructor injection: the dependencies are provided through a class constructor.
-- setter injection: the client exposes a setter method that the injector uses to inject the dependency.
-- interface injection: the dependency provides an injector method that will inject the dependency into any client passed to it. Clients must implement an interface that exposes a setter method that accepts the dependency.
-
-## Responsibility:
-- Create the objects
-- Know which classes require those objects
-- And provide them all those objects
-
-## Inversion of control —the concept behind DI
+## Inversion of control — the concept behind DI
 
 Class should not configure its dependencies statically but should be configured by some other class from outside.
 
@@ -32,6 +22,20 @@ It is the fifth principle of S.O.L.I.D -  that a class should depend on abstract
 
 According to the principles, a class should concentrate on fulfilling its responsibilities and not on creating objects that it requires to fulfill those responsibilities. And that’s where dependency injection comes into play: it provides the class with the required objects.
 
+
+// Implement
+## There are basically three types of dependency injection:
+- constructor injection: the dependencies are provided through a class constructor.
+- setter injection: the client exposes a setter method that the injector uses to inject the dependency.
+- interface injection: the dependency provides an injector method that will inject the dependency into any client passed to it. Clients must implement an interface that exposes a setter method that accepts the dependency.
+
+## Responsibility: - by frameworks
+- Create the objects
+- Know which classes require those objects
+- And provide them all those objects
+
+
+// implement DI -> should be another file
 ## Benefits of using DI
 
 - Helps in Unit testing.
@@ -44,3 +48,7 @@ According to the principles, a class should concentrate on fulfilling its respon
 - It’s a bit complex to learn, and if overused can lead to management issues and other problems.
 - Many compile time errors are pushed to run-time.
 - Dependency injection frameworks are implemented with reflection or dynamic programming. This can hinder use of IDE automation, such as “find references”, “show call hierarchy” and safe refactoring.
+
+// chon 1 package - framework swift DI 
+
+// Option: Unit test
