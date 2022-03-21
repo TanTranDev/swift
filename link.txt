@@ -1,0 +1,52 @@
+https://twitter.com/biz84/status/1501222281237905410?s=21
+
+http://www.codesimplicity.com/book/
+
+https://testing.googleblog.com/2017/04/code-health-googles-internal-code.html
+
+I have some suggestions to resolve Error: Not found: 'dart:ui'
+  export 'dart:ui' show VoidCallback; when you run unit test.
+  Please use Function instead of VoidCallback because Error: 'VoidCallback' is imported from both 'dart:ui' and 'dart:html'.
+
+https://api.flutter.dev/flutter/widgets/SingleChildScrollView-class.html
+https://api.flutter.dev/flutter/widgets/CustomScrollView-class.html
+https://api.flutter.dev/flutter/widgets/SliverToBoxAdapter-class.html
+https://api.flutter.dev/flutter/widgets/ListView-class.html
+
+Stream<MessagingAction> handleGenericLogic(
+  MessagingAction action,
+  String statusKey, {
+  Stream<MessagingAction> Function() body,
+}) async* {
+  try {
+    yield SetStatusMessagingAction(
+      (updates) => updates
+        ..statusKey = statusKey
+        ..status = Status.loading().toBuilder(),
+    );
+
+    yield* body?.call();
+
+    yield SetStatusMessagingAction(
+      (updates) => updates
+        ..statusKey = statusKey
+        ..status = Status.success().toBuilder(),
+    );
+  } catch (error) {
+    logging.severe('$action: ${error?.toString()}');
+    yield SetStatusMessagingAction(
+      (updates) => updates
+        ..statusKey = statusKey
+        ..status = Status.error(
+          message: error?.toString(),
+          data: action,
+        ).toBuilder(),
+    );
+  } finally {
+    yield SetStatusMessagingAction(
+      (updates) => updates
+        ..statusKey = statusKey
+        ..status = Status.idle().toBuilder(),
+    );
+  }
+}
